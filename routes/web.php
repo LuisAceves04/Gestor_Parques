@@ -19,3 +19,5 @@ Route::get('/dashboard', function () {
 
 Route::get('/register', [RegisterController::class, 'showRegistrationForm'])->name('register');
 Route::post('/register', [RegisterController::class, 'register'])->name('register.post');
+//route parquecontroller
+Route::resource('parques', ParqueController::class);
