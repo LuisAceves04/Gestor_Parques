@@ -7,52 +7,49 @@ use Illuminate\Http\Request;
 
 class ParqueController extends Controller
 {
-    // READ – Mostrar todos los registros
+    // Mostrar todos los parques
     public function index()
     {
         $parques = Parque::all();
-        return response()->json($parques);
+        return view('parques.index', compact('parques'));
     }
 
-    // CREATE – Crear un registro nuevo
+    // Formulario para crear un parque
+    public function create()
+    {
+        return view('parques.create');
+    }
+
+    // Guardar un parque nuevo
     public function store(Request $request)
     {
-        $parque = Parque::create([
-            'nombre' => $request->nombre,
-            'direccion' => $request->direccion,
-            'capacidad' => $request->capacidad,
-        ]);
-
-        return response()->json(['mensaje' => 'Parque creado correctamente', 'data' => $parque]);
+        Parque::create($request->all());
+        return redirect()->route('parques.index');
     }
 
-    // READ – Mostrar un registro
-    public function show($id)
+    // Mostrar formulario para editar
+    public function edit($id)
     {
         $parque = Parque::findOrFail($id);
-        return response()->json($parque);
+        return view('parques.edit', compact('parque'));
     }
 
-    // UPDATE – Actualizar un registro
+    // Actualizar un parque
     public function update(Request $request, $id)
     {
         $parque = Parque::findOrFail($id);
+        $parque->update($request->all());
 
-        $parque->update([
-            'nombre' => $request->nombre,
-            'direccion' => $request->direccion,
-            'capacidad' => $request->capacidad,
-        ]);
-
-        return response()->json(['mensaje' => 'Parque actualizado', 'data' => $parque]);
+        return redirect()->route('parques.index');
     }
 
-    // DELETE – Eliminar un registro
+    // Eliminar
     public function destroy($id)
     {
         $parque = Parque::findOrFail($id);
         $parque->delete();
 
-        return response()->json(['mensaje' => 'Parque eliminado correctamente']);
+        return redirect()->route('parques.index');
     }
 }
+
