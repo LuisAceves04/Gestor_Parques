@@ -18,6 +18,9 @@
         <label>Dirección:</label>
         <input type="text" name="direccion" value=" " required><br><br>
 
+         <label>Descripcion:</label>
+        <input type="text" name="descripcion" value=" " required><br><br>
+
         <button type="submit">Guardar cambios</button>
     </form>
 

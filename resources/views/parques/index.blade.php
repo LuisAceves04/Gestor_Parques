@@ -16,7 +16,6 @@
                 <th>ID</th>
                 <th>Nombre</th>
                 <th>Dirección</th>
-                <th>Capacidad</th>
                 <th>Acciones</th>
             </tr>
         </thead>

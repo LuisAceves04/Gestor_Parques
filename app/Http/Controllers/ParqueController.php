@@ -7,7 +7,7 @@ use Illuminate\Http\Request;
 
 class ParqueController extends Controller
 {
-    // Mostrar todos los parques
+    // Mostrar lista de parques
     public function index()
     {
         $parques = Parque::all();
@@ -23,33 +23,59 @@ class ParqueController extends Controller
     // Guardar un parque nuevo
     public function store(Request $request)
     {
-        Parque::create($request->all());
-        return redirect()->route('parques.index');
+        // Validación (IMPORTANTE)
+        $request->validate([
+            'nombre' => 'required|string|max:255',
+            'direccion' => 'required|string|max:255',
+            'descripcion' => 'nullable|string'
+        ]);
+
+        // Guardar en la BD
+        Parque::create([
+            'nombre' => $request->nombre,
+            'direccion' => $request->direccion,
+            'descripcion' => $request->descripcion
+        ]);
+
+        return redirect()->route('parques.index')
+                         ->with('success', 'Parque creado correctamente');
     }
 
-    // Mostrar formulario para editar
-    public function edit($id)
+    // Formulario para editar
+    public function edit(Parque $parque) // Usa Route Model Binding
     {
-        $parque = Parque::findOrFail($id);
         return view('parques.edit', compact('parque'));
     }
 
     // Actualizar un parque
-    public function update(Request $request, $id)
+    public function update(Request $request, Parque $parque)
     {
-        $parque = Parque::findOrFail($id);
-        $parque->update($request->all());
+        // Validación
+        $request->validate([
+            'nombre' => 'required|string|max:255',
+            'direccion' => 'required|string|max:255',
+            'descripcion' => 'nullable|string'
+        ]);
 
-        return redirect()->route('parques.index');
+        // Actualizar
+        $parque->update([
+            'nombre' => $request->nombre,
+            'direccion' => $request->direccion,
+            'descripcion' => $request->descripcion
+        ]);
+
+        return redirect()->route('parques.index')
+                         ->with('success', 'Parque actualizado correctamente');
     }
 
     // Eliminar
-    public function destroy($id)
+    public function destroy(Parque $parque)
     {
-        $parque = Parque::findOrFail($id);
         $parque->delete();
 
-        return redirect()->route('parques.index');
+        return redirect()->route('parques.index')
+                         ->with('success', 'Parque eliminado correctamente');
     }
 }
+
 
