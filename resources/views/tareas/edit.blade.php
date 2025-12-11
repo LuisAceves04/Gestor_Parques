@@ -15,7 +15,7 @@
         <div class="card">
             <div class="card-header bg-warning text-white">
                 <h2 class="mb-0">
-                    <i class="fas fa-edit"></i> Editar Tarea #{{ $tarea->IdTarea }}
+                    <i class="fas fa-edit"></i> Editar Tarea 
                 </h2>
             </div>
             
@@ -106,7 +106,7 @@
                     <div class="row mb-3">
                         <div class="col-md-12">
                             <label for="descripcion" class="form-label">Descripción Adicional (Opcional)</label>
-                            <textarea name="descripcion" id="descripcion" class="form-control" rows="3">{{ old('descripcion', $tarea->descripcion ?? '') }}</textarea>
+                            <textarea name="descripcion" id="descripcion" class="form-control" rows="3"></textarea>
                         </div>
                     </div>
 
