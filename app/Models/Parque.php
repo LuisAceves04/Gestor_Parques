@@ -2,13 +2,21 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\Auth\LoginController;
-use App\Http\Controllers\Auth\RegisterController;
-use App\Http\Controllers\ParqueController;
 
 class Parque extends Model
 {
-    protected $fillable = ['nombre', 'direccion', 'capacidad'];
+    // Nombre correcto de la tabla
+    protected $table = 'parques';
+
+    // Llave primaria personalizada
+    protected $primaryKey = 'idParque';
+
+    
+    public $timestamps = true;
+
+    // Campos permitidos para inserción/actualización
+    protected $fillable = ['Nombre', 'Ubicacion', 'Descripcion'];
 }
+

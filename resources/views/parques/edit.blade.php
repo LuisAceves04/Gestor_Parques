@@ -8,21 +8,22 @@
 <body>
     <h1>Editar Parque</h1>
 
-    <form action="{{ route('parques.update', $parque->id) }}" method="POST">
-        @csrf
-        @method('PUT')
+    <form action="{{ route('parques.update', $parque->idParque) }}" method="POST">
+    @csrf
+    @method('PUT')
 
-        <label>Nombre:</label>
-        <input type="text" name="nombre" value=" " required><br><br>
+    <label>Nombre:</label>
+    <input type="text" name="Nombre" value="{{ $parque->Nombre }}" required><br><br>
 
-        <label>Dirección:</label>
-        <input type="text" name="direccion" value=" " required><br><br>
+    <label>Ubicación:</label>
+    <input type="text" name="Ubicacion" value="{{ $parque->Ubicacion }}" required><br><br>
 
-         <label>Descripcion:</label>
-        <input type="text" name="descripcion" value=" " required><br><br>
+    <label>Descripción:</label>
+    <input type="text" name="Descripcion" value="{{ $parque->Descripcion }}" required><br><br>
 
-        <button type="submit">Guardar cambios</button>
-    </form>
+    <button type="submit">Guardar cambios</button>
+</form>
+
 
     <a href="{{ route('parques.index') }}">Volver</a>
 </body>

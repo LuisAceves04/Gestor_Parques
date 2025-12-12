@@ -9,20 +9,21 @@
     <h1>Crear Nuevo Parque</h1>
 
     <form action="{{ route('parques.store') }}" method="POST">
-        @csrf  
+@csrf
 
-        <label>Nombre:</label>
-        <input type="text" name="nombre" required><br><br>
+<label>Nombre:</label>
+<input type="text" name="Nombre">
 
-        <label>Dirección:</label>
-        <input type="text" name="direccion" required><br><br>
+<label>Ubicación:</label>
+<input type="text" name="Ubicacion">
 
-        <label>Descripcion:</label>
-        <input type="text" name="descripcion" required><br><br>
+<label>Descripción:</label>
+<input type="text" name="Descripcion">
+
+<button type="submit">Crear</button>
+</form>
 
 
-        <button type="submit">Crear</button>
-    </form>
 
     <a href="{{ route('parques.create') }}">Crear Parque</a>
 

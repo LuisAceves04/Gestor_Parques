@@ -3,7 +3,6 @@
 <head>
     <title>Listado de Parques</title>
     <link rel="stylesheet" href="/css/estilos.css">
-
 </head>
 <body>
     <h1>Parques</h1>
@@ -15,21 +14,25 @@
             <tr>
                 <th>ID</th>
                 <th>Nombre</th>
-                <th>Dirección</th>
+                <th>Ubicación</th>
+                <th>Descripción</th>
                 <th>Acciones</th>
             </tr>
         </thead>
         <tbody>
             @foreach($parques as $parque)
                 <tr>
-                    <td> </td>
-                    <td> </td>
-                    <td> </td>
-                    <td> </td>
-                    <td>
-                        <a href="{{ route('parques.edit', $parque->id) }}">Editar</a>
+                    <td>{{ $parque->idParque }}</td>
+                    <td>{{ $parque->Nombre }}</td>
+                    <td>{{ $parque->Ubicacion }}</td>
+                    <td>{{ $parque->Descripcion }}</td>
 
-                        <form action="{{ route('parques.destroy', $parque->id) }}" method="POST" style="display:inline">
+                    <td>
+                        <a href="{{ route('parques.edit', $parque->idParque) }}">Editar</a>
+
+                        <form action="{{ route('parques.destroy', $parque->idParque) }}" 
+                              method="POST" 
+                              style="display:inline">
                             @csrf
                             @method('DELETE')
                             <button type="submit">Eliminar</button>
@@ -39,5 +42,8 @@
             @endforeach
         </tbody>
     </table>
+
 </body>
 </html>
+
+
