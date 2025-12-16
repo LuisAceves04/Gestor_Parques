@@ -7,41 +7,46 @@ use App\Http\Controllers\ParqueController;
 use App\Http\Controllers\TareaController;
 use App\Http\Controllers\EmpleadoController;
 
+
 Route::get('/', function () {
     return view('welcome');
 });
 
 // ========== PARQUES ==========
-Route::resource('parques', ParqueController::class);
+Route::get('/empleados', [EmpleadoController::class, 'index'])
+    ->name('empleados.index');
 
-// ========== TAREAS ==========
-Route::resource('tarea', TareaController::class);
+Route::get('/empleados/create', [EmpleadoController::class, 'create'])
+    ->name('empleados.create');
 
-Route::get('tarea/empleado/{empleado}', [TareaController::class, 'porEmpleado'])
-     ->name('tarea.por-empleado');
-     
-Route::get('tarea/pendientes', [TareaController::class, 'pendientes'])
-     ->name('tarea.pendientes');
-     
-Route::put('tarea/{tarea}/estado', [TareaController::class, 'cambiarEstado'])
-     ->name('tarea.cambiar-estado');
+Route::post('/empleados', [EmpleadoController::class, 'store'])
+    ->name('empleados.store');
 
-// ========== EMPLEADOS ==========
-Route::resource('empleados', EmpleadoController::class);
+Route::get('/empleados/{id}', [EmpleadoController::class, 'show'])
+    ->name('empleados.show');
 
-Route::get('empleados/buscar', [EmpleadoController::class, 'buscar'])
-     ->name('empleados.buscar');
-     
-Route::get('empleados/departamento/{id}', [EmpleadoController::class, 'porDepartamento'])
-     ->name('empleados.por-departamento');
-     
-Route::get('empleados/reporte', [EmpleadoController::class, 'reporte'])
-     ->name('empleados.reporte');
-     
-Route::post('empleados/{id}/asignar-tarea', [EmpleadoController::class, 'asignarTarea'])
-     ->name('empleados.asignar-tarea');
+Route::get('/empleados/{id}/edit', [EmpleadoController::class, 'edit'])
+    ->name('empleados.edit');
+
+Route::put('/empleados/{id}', [EmpleadoController::class, 'update'])
+    ->name('empleados.update');
+
+Route::delete('/empleados/{id}', [EmpleadoController::class, 'destroy'])
+    ->name('empleados.destroy');
+
+Route::get('/empleados-buscar', [EmpleadoController::class, 'buscar'])
+    ->name('empleados.buscar');
 
 // ========== EXTRA ==========
 Route::get('/home', function () {
     return redirect()->route('tarea.index');
 })->name('home');
+
+//===========PARQUES==========
+Route::resource('parques', ParqueController::class);
+
+//===========TAREAS===========
+Route::resource('tareas', TareaController::class);
+Route::get('/tareas', [TareaController::class, 'index'])->name('tarea.index');
+Route::get('/tareas/create', [TareaController::class, 'create'])->name('tarea.create');
+Route::post('/tareas', [TareaController::class, 'store'])->name('tarea.store'); // <-- esto es clave
