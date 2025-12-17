@@ -47,6 +47,4 @@ Route::resource('parques', ParqueController::class);
 
 //===========TAREAS===========
 Route::resource('tareas', TareaController::class);
-Route::get('/tareas', [TareaController::class, 'index'])->name('tarea.index');
-Route::get('/tareas/create', [TareaController::class, 'create'])->name('tarea.create');
-Route::post('/tareas', [TareaController::class, 'store'])->name('tarea.store'); // <-- esto es clave
+

@@ -27,19 +27,19 @@ class TareaController extends Controller
 
 
     public function store(Request $request)
-    {
-        $request->validate([
-            'idReporte' => 'required|integer',
-            'idEmpleado' => 'required|integer',
-            'fecha_asignacion' => 'required|date',
-            'estado_tarea' => 'required'
-        ]);
+{
+    $validated = $request->validate([
+        'idReporte' => 'required|integer',
+        'idEmpleado' => 'required|integer',
+        'fecha_asignacion' => 'required|date',
+        'estado_tarea' => 'required'
+    ]);
 
-        Tarea::create($request->all());
+    Tarea::create($validated);
 
-        return redirect()->route('tareas.index')
-            ->with('success', 'Tarea creada correctamente');
-    }
+    return redirect()->route('tareas.index')
+        ->with('success', 'Tarea creada correctamente');
+}
 
     public function edit($id)
     {
@@ -50,13 +50,29 @@ class TareaController extends Controller
         ]);
     }
 
-    public function update(Request $request, $id)
-    {
-        Tarea::findOrFail($id)->update($request->all());
+ public function update(Request $request, Tarea $tarea)
+{
+    $request->validate([
+        'idReporte'        => 'required|exists:reporte,idReporte',
+        'idEmpleado'       => 'required|exists:empleados,idEmpleado',
+        'fecha_asignacion' => 'required|date',
+        'estado_tarea'     => 'required|in:pendiente,en_proceso,completada,cancelada',
+        'descripcion'      => 'nullable|string',
+    ]);
 
-        return redirect()->route('tareas.index')
-            ->with('success', 'Tarea actualizada');
-    }
+    $tarea->update([
+        'idReporte'        => $request->idReporte,
+        'idEmpleado'       => $request->idEmpleado,
+        'fecha_asignacion' => $request->fecha_asignacion,
+        'estado_tarea'     => $request->estado_tarea,
+        'descripcion'      => $request->descripcion,
+    ]);
+
+    return redirect()->route('tareas.index')
+        ->with('success', 'Tarea actualizada correctamente');
+}
+
+
 
     public function destroy($id)
     {

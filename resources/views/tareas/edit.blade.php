@@ -1,155 +1,172 @@
 <!DOCTYPE html>
-<html>
+<html lang="es">
 <head>
-    <title>Editar Tarea #{{ $tarea->IdTarea }}</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
-    <style>
-        body { padding: 20px; background-color: #f8f9fa; }
-        .container { max-width: 800px; margin: 0 auto; }
-        .card { box-shadow: 0 0 10px rgba(0,0,0,0.1); }
-        .required { color: red; }
-    </style>
+    <meta charset="UTF-8">
+    <title>Editar Tarea #{{ $tarea->idTarea }}</title>
+
+    {{-- Bootstrap --}}
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    {{-- Font Awesome --}}
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet">
 </head>
 <body>
-    <div class="container">
-        <div class="card">
-            <div class="card-header bg-warning text-white">
-                <h2 class="mb-0">
-                    <i class="fas fa-edit"></i> Editar Tarea 
-                </h2>
-            </div>
-            
-            <div class="card-body">
-                @if($errors->any())
-                    <div class="alert alert-danger">
-                        <ul class="mb-0">
-                            @foreach($errors->all() as $error)
-                                <li>{{ $error }}</li>
-                            @endforeach
-                        </ul>
-                    </div>
-                @endif
 
-                @if(session('success'))
-                    <div class="alert alert-success">
-                        {{ session('success') }}
-                    </div>
-                @endif
+<div class="container-fluid py-4">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card shadow">
 
-                <form action="{{ route('tarea.update', $tarea->IdTarea) }}" method="POST">
-                    @csrf
-                    @method('PUT')
+                <div class="card-header bg-warning text-white">
+                    <h4 class="mb-0">
+                        <i class="fas fa-edit me-2"></i> Editar Tarea
+                    </h4>
+                </div>
 
-                    <div class="row mb-3">
-                        <div class="col-md-6">
-                            <label for="IdReporte" class="form-label">
-                                Reporte Asociado <span class="required">*</span>
-                            </label>
-                            <select name="IdReporte" id="IdReporte" class="form-control" required>
+                <div class="card-body">
+
+                    {{-- Errores --}}
+                    @if($errors->any())
+                        <div class="alert alert-danger">
+                            <ul class="mb-0">
+                                @foreach($errors->all() as $error)
+                                    <li>{{ $error }}</li>
+                                @endforeach
+                            </ul>
+                        </div>
+                    @endif
+
+                    <form action="{{ route('tareas.update', $tarea->idTarea) }}" method="POST">
+                        @csrf
+                        @method('PUT')
+
+                        <div class="row">
+
+                            <!-- Reporte Asociado -->
+                            <div class="col-md-6 mb-3">
+                                <label for="idReporte" class="form-label">Reporte Asociado</label>
+                                <select name="idReporte" id="idReporte" class="form-select" required>
                                 <option value="">Seleccionar Reporte</option>
                                 @foreach($reportes as $reporte)
-                                    <option value="{{ $reporte->id }}" 
-                                        {{ old('IdReporte', $tarea->IdReporte) == $reporte->id ? 'selected' : '' }}>
-                                        Reporte #{{ $reporte->id }} - {{ $reporte->descripcion }}
+                                    <option value="{{ $reporte->idReporte }}"
+                                        {{ old('idReporte', $tarea->idReporte) == $reporte->idReporte ? 'selected' : '' }}>
+                                        {{ $reporte->descripcion }}
                                     </option>
                                 @endforeach
                             </select>
+                                @error('idReporte')
+                                    <div class="invalid-feedback">Seleccione un reporte válido</div>
+                                @enderror
+                            </div>
+
+                            <!-- Empleado -->
+                            <div class="col-md-6 mb-3">
+                                <label for="idEmpleado" class="form-label">Empleado Asignado</label>
+                               <select name="idEmpleado"
+                                        id="idEmpleado"
+                                        class="form-select @error('idEmpleado') is-invalid @enderror"
+                                        required>
+                                    <option value="">Seleccionar Empleado</option>
+
+                                    @foreach($empleados as $empleado)
+                                        <option value="{{ $empleado->idEmpleado }}"
+                                            {{ old('idEmpleado', $tarea->idEmpleado) == $empleado->idEmpleado ? 'selected' : '' }}>
+                                            {{ $empleado->Nombre }} {{ $empleado->apellido }}
+                                        </option>
+                                    @endforeach
+                                </select>
+
+                                @error('idEmpleado')
+                                    <div class="invalid-feedback">Seleccione un empleado</div>
+                                @enderror
+
+                            </div>
+
+                            <!-- Fecha -->
+                            <div class="col-md-6 mb-3">
+                                <label for="fecha_asignacion" class="form-label">Fecha de Asignación</label>
+                                <input type="date"
+                                       name="fecha_asignacion"
+                                       id="fecha_asignacion"
+                                       class="form-control @error('fecha_asignacion') is-invalid @enderror"
+                                       value="{{ old('fecha_asignacion', \Carbon\Carbon::parse($tarea->fecha_asignacion)->format('Y-m-d')) }}"
+                                       required>
+                                @error('fecha_asignacion')
+                                    <div class="invalid-feedback">Fecha inválida</div>
+                                @enderror
+                            </div>
+
+                            <!-- Estado -->
+                            <div class="col-md-6 mb-3">
+                                <label for="estado_tarea" class="form-label">Estado</label>
+                                <select name="estado_tarea"
+                                        id="estado_tarea"
+                                        class="form-select @error('estado_tarea') is-invalid @enderror"
+                                        required>
+                                    <option value="pendiente" {{ old('estado_tarea', $tarea->estado_tarea) == 'pendiente' ? 'selected' : '' }}>Pendiente</option>
+                                    <option value="en_proceso" {{ old('estado_tarea', $tarea->estado_tarea) == 'en_proceso' ? 'selected' : '' }}>En Proceso</option>
+                                    <option value="completada" {{ old('estado_tarea', $tarea->estado_tarea) == 'completada' ? 'selected' : '' }}>Completada</option>
+                                    <option value="cancelada" {{ old('estado_tarea', $tarea->estado_tarea) == 'cancelada' ? 'selected' : '' }}>Cancelada</option>
+                                </select>
+                                @error('estado_tarea')
+                                    <div class="invalid-feedback">Estado inválido</div>
+                                @enderror
+                            </div>
+
+                            <!-- Descripción -->
+                            <div class="col-md-12 mb-3">
+                                <label for="descripcion" class="form-label">Descripción Adicional</label>
+                                <textarea name="descripcion"
+                                          id="descripcion"
+                                          rows="3"
+                                          class="form-control">{{ old('descripcion', $tarea->descripcion) }}</textarea>
+                                <small class="text-muted">Detalles adicionales sobre la tarea</small>
+                            </div>
+
                         </div>
 
-                        <div class="col-md-6">
-                            <label for="idEmpleado" class="form-label">
-                                Empleado Asignado <span class="required">*</span>
-                            </label>
-                            <select name="idEmpleado" id="idEmpleado" class="form-control" required>
-                                <option value="">Seleccionar Empleado</option>
-                                @foreach($empleados as $empleado)
-                                    <option value="{{ $empleado->id }}" 
-                                        {{ old('idEmpleado', $tarea->idEmpleado) == $empleado->id ? 'selected' : '' }}>
-                                        {{ $empleado->Nombre }} {{ $empleado->apellido }}
-                                    </option>
-                                @endforeach
-                            </select>
-                        </div>
-                    </div>
-
-                    <div class="row mb-3">
-                        <div class="col-md-6">
-                            <label for="fecha_asignacion" class="form-label">
-                                Fecha de Asignación <span class="required">*</span>
-                            </label>
-                            <input type="date" name="fecha_asignacion" id="fecha_asignacion" 
-                                   class="form-control" 
-                                   value="{{ old('fecha_asignacion', $tarea->fecha_asignacion) }}" required>
+                        <!-- Botones -->
+                        <div class="row mt-4">
+                            <div class="col-md-12 d-flex justify-content-between">
+                                <a href="{{ route('tareas.index') }}" class="btn btn-secondary">
+                                    <i class="fas fa-arrow-left me-1"></i> Cancelar
+                                </a>
+                                <button type="submit" class="btn btn-primary">
+                                    <i class="fas fa-save me-1"></i> Guardar Cambios
+                                </button>
+                            </div>
                         </div>
 
-                        <div class="col-md-6">
-                            <label for="estado_tarea" class="form-label">
-                                Estado <span class="required">*</span>
-                            </label>
-                            <select name="estado_tarea" id="estado_tarea" class="form-control" required>
-                                <option value="pendiente" {{ old('estado_tarea', $tarea->estado_tarea) == 'pendiente' ? 'selected' : '' }}>
-                                    Pendiente
-                                </option>
-                                <option value="en_proceso" {{ old('estado_tarea', $tarea->estado_tarea) == 'en_proceso' ? 'selected' : '' }}>
-                                    En Proceso
-                                </option>
-                                <option value="completada" {{ old('estado_tarea', $tarea->estado_tarea) == 'completada' ? 'selected' : '' }}>
-                                    Completada
-                                </option>
-                                <option value="cancelada" {{ old('estado_tarea', $tarea->estado_tarea) == 'cancelada' ? 'selected' : '' }}>
-                                    Cancelada
-                                </option>
-                            </select>
-                        </div>
-                    </div>
+                    </form>
+                </div>
 
-                    <div class="row mb-3">
-                        <div class="col-md-12">
-                            <label for="descripcion" class="form-label">Descripción Adicional (Opcional)</label>
-                            <textarea name="descripcion" id="descripcion" class="form-control" rows="3"></textarea>
-                        </div>
-                    </div>
+                <div class="card-footer text-muted">
+                    <small>
+                        Última actualización:
+                        {{ optional($tarea->updated_at)->format('d/m/Y H:i') ?? 'Sin actualizar' }}
+                        <br>
+                        Creada el:
+                        {{ optional($tarea->created_at)->format('d/m/Y') ?? 'Sin fecha' }}
+                    </small>
+                </div>
 
-                    <div class="d-flex justify-content-between">
-                        <a href="{{ route('tarea.index') }}" class="btn btn-secondary">
-                            <i class="fas fa-arrow-left"></i> Cancelar y Volver
-                        </a>
-                        <button type="submit" class="btn btn-primary">
-                            <i class="fas fa-save"></i> Guardar Cambios
-                        </button>
-                    </div>
-                </form>
-            </div>
-            
-            <div class="card-footer text-muted">
-                <small>
-                    Última actualización: {{ $tarea->updated_at->format('d/m/Y H:i') }}
-                    <br>
-                    Tarea creada: {{ $tarea->created_at->format('d/m/Y') }}
-                </small>
             </div>
         </div>
     </div>
+</div>
 
-    <!-- Bootstrap JS -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
-    <!-- Font Awesome -->
-    <script src="https://kit.fontawesome.com/your-fontawesome-kit.js" crossorigin="anonymous"></script>
-    
-    <script>
-        // Si no tienes Font Awesome, quita los iconos o usa esta alternativa
-        document.addEventListener('DOMContentLoaded', function() {
-            // Establecer fecha mínima
-            const fechaInput = document.getElementById('fecha_asignacion');
-            const hoy = new Date().toISOString().split('T')[0];
-            fechaInput.min = hoy;
-            
-            // Si no hay Font Awesome, ocultar iconos
-            const iconos = document.querySelectorAll('.fas, .fa');
-            if (iconos.length > 0 && !window.FontAwesome) {
-                iconos.forEach(icon => icon.style.display = 'none');
-            }
-        });
-    </script>
+{{-- Bootstrap JS --}}
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    const fechaInput = document.getElementById('fecha_asignacion');
+    if (fechaInput) {
+        const today = new Date().toISOString().split('T')[0];
+        fechaInput.min = today;
+    }
+});
+</script>
+
 </body>
 </html>
