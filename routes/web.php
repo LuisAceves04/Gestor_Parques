@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ParqueController;
 use App\Http\Controllers\TareaController;
 use App\Http\Controllers\EmpleadoController;
+use App\Http\Controllers\ReporteController;
 
 
 Route::get('/', function () {
@@ -47,4 +48,7 @@ Route::resource('parques', ParqueController::class);
 
 //===========TAREAS===========
 Route::resource('tareas', TareaController::class);
+
+//===========Reportes=========
+Route::resource('reportes', ReporteController::class);
 

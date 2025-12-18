@@ -1,11 +1,21 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Lista de Tareas</title>
 
+    {{-- Bootstrap --}}
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
 
-@section('title', 'Lista de Tareas')
+    {{-- Font Awesome --}}
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet">
+</head>
+<body>
 
-@section('content')
 <div class="container-fluid py-4">
-    <div class="row">
-        <div class="col-12">
+    <div class="row justify-content-center">
+        <div class="col-md-10">
+
             <div class="card shadow">
 
                 {{-- HEADER --}}
@@ -49,7 +59,8 @@
 
                         <div class="col-md-3">
                             <label class="form-label">Fecha desde</label>
-                            <input type="date" name="fecha_desde"
+                            <input type="date"
+                                   name="fecha_desde"
                                    value="{{ request('fecha_desde') }}"
                                    class="form-control">
                         </div>
@@ -64,7 +75,7 @@
 
                     {{-- TABLA --}}
                     <div class="table-responsive">
-                        <table class="table table-striped table-hover">
+                        <table class="table table-hover align-middle">
                             <thead class="table-dark">
                                 <tr>
                                     <th>ID</th>
@@ -82,36 +93,32 @@
                                 <tr>
                                     <td class="fw-bold">{{ $tarea->idTarea }}</td>
 
-                                    {{-- REPORTE --}}
                                     <td>
                                         {{ $tarea->reporte?->idReporte ?? 'Sin reporte' }}
                                     </td>
 
-                                    {{-- EMPLEADO --}}
                                     <td>
                                         {{ $tarea->empleado?->Nombre ?? 'Sin asignar' }}
                                     </td>
 
-                                    {{-- FECHA --}}
                                     <td>
                                         {{ \Carbon\Carbon::parse($tarea->fecha_asignacion)->format('d/m/Y') }}
                                     </td>
 
-                                    {{-- ESTADO --}}
                                     <td>
                                         <span class="badge bg-secondary">
                                             {{ ucfirst($tarea->estado_tarea) }}
                                         </span>
                                     </td>
 
-                                    {{-- UPDATED --}}
                                     <td>
                                         {{ $tarea->updated_at ?? '—' }}
                                     </td>
 
                                     {{-- ACCIONES --}}
                                     <td class="text-center">
-                                        <a href="{{ route('tareas.edit', $tarea->idTarea) }}" class="btn btn-warning btn-sm">
+                                        <a href="{{ route('tareas.edit', $tarea->idTarea) }}"
+                                           class="btn btn-sm btn-warning">
                                             <i class="fas fa-edit"></i>
                                         </a>
 
@@ -119,7 +126,7 @@
                                               method="POST" class="d-inline">
                                             @csrf
                                             @method('DELETE')
-                                            <button class="btn btn-danger btn-sm"
+                                            <button class="btn btn-sm btn-danger"
                                                     onclick="return confirm('¿Eliminar tarea?')">
                                                 <i class="fas fa-trash"></i>
                                             </button>
@@ -130,7 +137,7 @@
                             @empty
                                 <tr>
                                     <td colspan="7" class="text-center">
-                                        <div class="alert alert-info">
+                                        <div class="alert alert-info mb-0">
                                             No hay tareas registradas.
                                             <a href="{{ route('tareas.create') }}">Crear tarea</a>
                                         </div>
@@ -144,8 +151,19 @@
                     {{ $tareas->links() }}
 
                 </div>
+
+                <div class="card-footer text-muted text-end">
+                    <small>Gestión de tareas</small>
+                </div>
+
             </div>
+
         </div>
     </div>
 </div>
 
+{{-- Bootstrap JS --}}
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
+</body>
+</html>

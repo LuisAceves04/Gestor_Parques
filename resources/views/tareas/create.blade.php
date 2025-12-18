@@ -34,8 +34,8 @@
                                         class="form-select @error('idReporte') is-invalid @enderror" required>
                                     <option value="">Seleccionar Reporte</option>
                                     @foreach($reportes as $reporte)
-                                        <option value="{{ $reporte->id }}"
-                                            {{ old('idReporte') == $reporte->id ? 'selected' : '' }}>
+                                        <option value="{{ $reporte->idReporte }}"
+                                            {{ old('idReporte') == $reporte->idReporte ? 'selected' : '' }}>
                                             {{ $reporte->nombre }}
                                         </option>
                                     @endforeach
@@ -54,8 +54,8 @@
                                         class="form-select @error('idEmpleado') is-invalid @enderror" required>
                                     <option value="">Seleccionar Empleado</option>
                                     @foreach($empleados as $empleado)
-                                        <option value="{{ $empleado->id }}"
-                                            {{ old('idEmpleado') == $empleado->id ? 'selected' : '' }}>
+                                        <option value="{{ $empleado->idEmpleado }}"
+                                            {{ old('idEmpleado') == $empleado->idEmpleado ? 'selected' : '' }}>
                                             {{ $empleado->nombre }}
                                         </option>
                                     @endforeach

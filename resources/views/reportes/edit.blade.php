@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Editar Reporte</title>
+
+    {{-- Bootstrap --}}
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    {{-- Font Awesome --}}
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+
+<div class="container-fluid py-4">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card shadow">
+
+                {{-- HEADER --}}
+                <div class="card-header bg-warning text-white">
+                    <h4 class="mb-0">
+                        <i class="fas fa-edit me-2"></i> Editar Reporte
+                    </h4>
+                </div>
+
+                {{-- BODY --}}
+                <div class="card-body">
+                    <form action="{{ route('reportes.update', $reporte->idReporte) }}" method="POST">
+                        @csrf
+                        @method('PUT')
+
+                        <div class="row">
+
+                            {{-- Parque --}}
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">Parque</label>
+                                <input type="number"
+                                       name="idParque"
+                                       class="form-control"
+                                       value="{{ $reporte->idParque }}"
+                                       required>
+                            </div>
+
+                            {{-- Estado --}}
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">Estado</label>
+                                <select name="estado" class="form-select" required>
+                                    <option value="pendiente" {{ $reporte->estado == 'pendiente' ? 'selected' : '' }}>
+                                        Pendiente
+                                    </option>
+                                    <option value="en_proceso" {{ $reporte->estado == 'en_proceso' ? 'selected' : '' }}>
+                                        En proceso
+                                    </option>
+                                    <option value="resuelto" {{ $reporte->estado == 'resuelto' ? 'selected' : '' }}>
+                                        Resuelto
+                                    </option>
+                                </select>
+                            </div>
+
+                            {{-- Descripción --}}
+                            <div class="col-md-12 mb-3">
+                                <label class="form-label">Descripción</label>
+                                <textarea name="descripcion"
+                                          class="form-control"
+                                          rows="3"
+                                          required>{{ $reporte->descripcion }}</textarea>
+                            </div>
+
+                        </div>
+
+                        {{-- BOTONES --}}
+                        <div class="d-flex justify-content-between mt-4">
+                            <a href="{{ route('reportes.index') }}" class="btn btn-secondary">
+                                <i class="fas fa-arrow-left me-1"></i> Cancelar
+                            </a>
+                            <button class="btn btn-primary">
+                                <i class="fas fa-save me-1"></i> Actualizar
+                            </button>
+                        </div>
+
+                    </form>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+{{-- Bootstrap JS --}}
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
+</body>
+</html>
