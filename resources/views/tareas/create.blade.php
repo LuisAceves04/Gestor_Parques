@@ -36,7 +36,7 @@
                                     @foreach($reportes as $reporte)
                                         <option value="{{ $reporte->idReporte }}"
                                             {{ old('idReporte') == $reporte->idReporte ? 'selected' : '' }}>
-                                            {{ $reporte->nombre }}
+                                            {{ $reporte->idReporte }}
                                         </option>
                                     @endforeach
                                 </select>
@@ -56,7 +56,7 @@
                                     @foreach($empleados as $empleado)
                                         <option value="{{ $empleado->idEmpleado }}"
                                             {{ old('idEmpleado') == $empleado->idEmpleado ? 'selected' : '' }}>
-                                            {{ $empleado->nombre }}
+                                            {{ $empleado->idEmpleado }}
                                         </option>
                                     @endforeach
                                 </select>

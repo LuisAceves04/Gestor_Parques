@@ -7,6 +7,7 @@ use App\Http\Controllers\ParqueController;
 use App\Http\Controllers\TareaController;
 use App\Http\Controllers\EmpleadoController;
 use App\Http\Controllers\ReporteController;
+use App\Http\Controllers\usuarioController;
 
 
 Route::get('/', function () {
@@ -51,4 +52,8 @@ Route::resource('tareas', TareaController::class);
 
 //===========Reportes=========
 Route::resource('reportes', ReporteController::class);
+
+//===========Usuarios=========
+Route::resource('usuarios', UsuarioController::class);
+
 

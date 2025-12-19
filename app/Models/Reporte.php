@@ -13,11 +13,10 @@ class Reporte extends Model
     protected $primaryKey = 'idReporte';
 
     protected $fillable = [
-        'idReporte',
         'idUsuario',
         'idParque',
-        'iddescripcion',
-        'idestado',
+        'descripcion',
+        'estado',
         'fecha_reporte',
         'imaguen'
     ];

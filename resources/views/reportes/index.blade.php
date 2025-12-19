@@ -34,6 +34,7 @@
                         <thead class="table-dark">
                             <tr>
                                 <th>ID</th>
+                                <th>IDUsuario</th>
                                 <th>Parque</th>
                                 <th>Descripción</th>
                                 <th>Estado</th>
@@ -45,6 +46,8 @@
                         @forelse($reportes as $reporte)
                             <tr>
                                 <td class="fw-bold">{{ $reporte->idReporte }}</td>
+
+                                <td>{{ $reporte->idUsuario }}</td>
 
                                 <td>{{ $reporte->idParque }}</td>
 

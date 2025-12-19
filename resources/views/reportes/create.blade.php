@@ -31,6 +31,15 @@
 
                         <div class="row">
 
+                            {{-- Usuario --}}
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">Usuario</label>
+                                <input type="number"
+                                       name="idUsuario"
+                                       class="form-control"
+                                       required>
+                            </div>
+
                             {{-- Parque --}}
                             <div class="col-md-6 mb-3">
                                 <label class="form-label">Parque</label>
